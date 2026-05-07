@@ -1,0 +1,15 @@
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\bin\Debug\net10.0\Game-Template.exe
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\bin\Debug\net10.0\Game-Template.deps.json
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\bin\Debug\net10.0\Game-Template.runtimeconfig.json
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\bin\Debug\net10.0\Game-Template.dll
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\bin\Debug\net10.0\Game-Template.pdb
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\obj\Debug\net10.0\Game-Template.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\obj\Debug\net10.0\Game-Template.AssemblyInfoInputs.cache
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\obj\Debug\net10.0\Game-Template.AssemblyInfo.cs
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\obj\Debug\net10.0\Game-Template.csproj.CoreCompileInputs.cache
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\obj\Debug\net10.0\Game-Template.sourcelink.json
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\obj\Debug\net10.0\Game-Template.dll
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\obj\Debug\net10.0\refint\Game-Template.dll
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\obj\Debug\net10.0\Game-Template.pdb
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\obj\Debug\net10.0\Game-Template.genruntimeconfig.cache
+C:\Users\pault\OneDrive\Skrivbord\Programmering 1\Game-Template\obj\Debug\net10.0\ref\Game-Template.dll
