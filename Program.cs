@@ -1,14 +1,14 @@
 ﻿
 class Program //Blueprint 
 {
-    static void GameMenu()
+    public static void GameMenu()
     {
         Console.WriteLine("1) Play");
         Console.WriteLine("2) About");
         Console.WriteLine("3) Exit");
     }
 
-    static void ShowStats(Player player)
+    public static void ShowStats(Player player)
     {
         Console.WriteLine("=====================");
         Console.WriteLine("Y O U R     S T A T S");
@@ -95,10 +95,13 @@ class Program //Blueprint
 
             Console.Clear();
             var map = new char[,]{
-                                {'.','.','.','.'},
-                                {'#','#','#','.'},
-                                {'#','.','.','.'},
-                                {'#','D','#','#'}
+                                {'#','#','#','#','#','#','#','#','#','#','#','#','#'},
+                                {'#','.','.','.','#','.','.','.','.','.','.','.','#'},
+                                {'#','#','#','.','#','.','#','#','#','#','#','.','#'},
+                                {'#','.','.','.','#','.','#','.','.','.','.','.','#'},
+                                {'#','.','#','#','#','.','#','.','#','#','#','#','#'},
+                                {'#','.','.','.','.','.','#','.','.','.','.','.','D'},
+                                {'#','#','#','#','#','#','#','#','#','#','#','#','#'},
                                 }; // Statisk karta (bakgrund)
 
 
@@ -117,13 +120,51 @@ class Program //Blueprint
             // Placerar ut alla items på kartan
             foreach (Item item in items)
             {
-                renderMap[item.ItemPosY, item.ItemPosX] = item.ItemSymbol;
+                if (!item.IsPickedUp)
+                {
+                    renderMap[item.ItemPosY, item.ItemPosX] = item.ItemSymbol;
+                }
+
+
+                if (!item.IsPickedUp && item.ItemPosY == player.posY && item.ItemPosX == player.posX)
+
+                {
+                    item.IsPickedUp = true;
+                    player.PlayerHealth += 10;
+
+
+                }
             }
 
             // Placerar ut alla enemies på kartan
             foreach (Enemy enemy in enemies)
             {
-                renderMap[enemy.EnemyPosY, enemy.EnemyPosX] = enemy.EnemySymbol;
+                if (enemy.IsAlive)
+                {
+                    renderMap[enemy.EnemyPosY, enemy.EnemyPosX] = enemy.EnemySymbol;
+                }
+
+                if (enemy.IsAlive && enemy.EnemyPosY == player.posY && enemy.EnemyPosX == player.posX)
+                {
+                    Battle battle = new Battle();
+                    string result = battle.StartBattle(player, enemy);
+
+                    if (result == "WIN")
+                    {
+                        enemy.IsAlive = false;
+                        Console.ReadKey();
+                    }
+                    else if (result == "LOSE")
+                    {
+                        Console.WriteLine("Back to menu...");
+                        Program.GameMenu();
+                    }
+                    else if (result == "RUN")
+                    {
+                        Console.WriteLine("You ran away!");
+                        Console.ReadKey();
+                    }
+                }
             }
 
 
@@ -139,34 +180,39 @@ class Program //Blueprint
             {
                 Console.WriteLine("");
                 for (int j = 0; j < renderMap.GetLength(1); j++)
-                    Console.Write(renderMap[i, j]);
+                    Console.Write(renderMap[i, j] + " ");
             }
 
             Console.WriteLine("");
             Console.WriteLine("");
-            Console.WriteLine("Press W, A, S, D to control the player");
+            Console.WriteLine("Press [W, A, S, D] to control the player");
             Console.WriteLine("");
-            string playerMovement = Console.ReadLine().ToUpper();
+            ShowStats(player);
+
+
+            ConsoleKeyInfo key = Console.ReadKey(true);
 
 
             // Rörelselogik, Kolla först med newX/newY, flytta sedan player.posY/posX
+            // ReadKey(true) istället för ReadLine för input
 
             int newX = player.posX;
             int newY = player.posY;
 
-            if (playerMovement == "W")
+
+            if (key.Key == ConsoleKey.W)
             {
                 newY--;
             }
-            else if (playerMovement == "A")
+            else if (key.Key == ConsoleKey.A)
             {
                 newX--;
             }
-            else if (playerMovement == "D")
+            else if (key.Key == ConsoleKey.D)
             {
                 newX++;
             }
-            else if (playerMovement == "S")
+            else if (key.Key == ConsoleKey.S)
             {
                 newY++;
             }
@@ -197,6 +243,7 @@ class Program //Blueprint
     {
         while (true)
         {
+            Console.Clear();
             GameMenu();
 
             if (!int.TryParse(Console.ReadLine(), out int gameMenuChoice)) //“Här används int.TryParse för att kontrollera om input kan omvandlas till ett heltal, utan att programmet kraschar.”

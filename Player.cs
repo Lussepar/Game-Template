@@ -15,16 +15,18 @@ class Player
     public int PlayerAttack { get; set; }
     public int PlayerDefence { get; set; }
     public int PlayerSkillPoints { get; set; }
+    public bool IsAlive { get; set; }
 
     public Player()
 
     {
-        posY = 0;
-        posX = 0;
+        posY = 1;
+        posX = 1;
         PlayerHealth = 100;
         PlayerAttack = 5;
         PlayerDefence = 5;
         PlayerSkillPoints = 10;
         PlayerSymbol = '@';
+        IsAlive = true;
     }
 }
