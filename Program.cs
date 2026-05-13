@@ -1,25 +1,24 @@
-﻿
-class Program //Blueprint 
+﻿class Program //Blueprint 
 {
-    public static void GameMenu()
+    public static void GameMenu() // Visar menyn
     {
         Console.WriteLine("1) Play");
         Console.WriteLine("2) About");
         Console.WriteLine("3) Exit");
     }
 
-    public static void ShowStats(Player player)
+    public static void ShowStats(Player player) // Metod för att visa spelarens stats
     {
         Console.WriteLine("=====================");
         Console.WriteLine("Y O U R     S T A T S");
         Console.WriteLine();
-        Console.WriteLine($"Health: {player.PlayerHealth}");
-        Console.WriteLine($"Attack: {player.PlayerAttack}");
-        Console.WriteLine($"Defence: {player.PlayerDefence}");
+        Console.WriteLine($"Health: {player.Health}");
+        Console.WriteLine($"Attack: {player.Attack}");
+        Console.WriteLine($"Defence: {player.Defence}");
         Console.WriteLine("======================");
     }
 
-    static void StartGame()
+    static void StartGame() // Start av spel med alternativ 1
     {
         Console.Clear();
         Player player = new Player();
@@ -29,20 +28,25 @@ class Program //Blueprint
         Console.Write("Name your character: ");
 
         string input = Console.ReadLine();
-        player.PlayerName = input;
+        player.Name = input;
 
         SkillPoints(player); // Argument = det du skickar in
     }
 
+    /*
+    player skickas in som ett argument till metoden SkillPoints.
+    Metoden tar emot objektet genom parametern Player player.
+    */
+
     static void SkillPoints(Player player) // Parameter = det som tar emot
     {
-        while (player.PlayerSkillPoints > 0)
+        while (player.SkillPoints > 0)
         {
             Console.Clear();
             ShowStats(player);
 
             Console.WriteLine();
-            Console.WriteLine($"Assign your stats. You have {player.PlayerSkillPoints} left.");
+            Console.WriteLine($"Assign your stats. You have {player.SkillPoints} left.");
             Console.WriteLine("[A] for Attack");
             Console.WriteLine("[D] for Defence");
             Console.WriteLine("[H] for Health");
@@ -50,29 +54,29 @@ class Program //Blueprint
 
             if (SkillAssignment == "A")
             {
-                player.PlayerSkillPoints--;
-                player.PlayerAttack++;
+                player.SkillPoints--;
+                player.Attack++;
                 continue;
             }
             else if (SkillAssignment == "H")
             {
-                player.PlayerSkillPoints--;
-                player.PlayerHealth += 10;
+                player.SkillPoints--;
+                player.Health += 10;
                 continue;
             }
             else if (SkillAssignment == "D")
             {
-                player.PlayerSkillPoints--;
-                player.PlayerDefence++;
+                player.SkillPoints--;
+                player.Defence++;
                 continue;
             }
             else
             {
                 Console.WriteLine("Invalid input. Press any key...");
                 Console.ReadKey();
-
             }
         }
+
         Console.Clear();
         ShowStats(player);
 
@@ -82,7 +86,7 @@ class Program //Blueprint
         GameRun(player);
     }
 
-    static void GameRun(Player player) // Läs om ReadChar
+    static void GameRun(Player player) // Fixat ReadKey istället för ReadLine
     {
         List<Enemy> enemies = new List<Enemy>(); // Lista med alla enemies i spelet
         enemies.Add(new Enemy());
@@ -94,6 +98,8 @@ class Program //Blueprint
         {
 
             Console.Clear();
+
+            // Statisk karta (bakgrund) En tvådimensionell array av typen char
             var map = new char[,]{
                                 {'#','#','#','#','#','#','#','#','#','#','#','#','#'},
                                 {'#','.','.','.','#','.','.','.','.','.','.','.','#'},
@@ -102,10 +108,9 @@ class Program //Blueprint
                                 {'#','.','#','#','#','.','#','.','#','#','#','#','#'},
                                 {'#','.','.','.','.','.','#','.','.','.','.','.','D'},
                                 {'#','#','#','#','#','#','#','#','#','#','#','#','#'},
-                                }; // Statisk karta (bakgrund)
+                                };
 
-
-            // Skapar en tom karta som ska renderas
+            // Skapar en tom karta som ska renderas. var används för implicit typning, vilket innebär att kompilatorns automatiskt identifierar vilken datatyp variablen ska ha baserat på värdet som tilldelas.
             var renderMap = new char[map.GetLength(0), map.GetLength(1)];
 
             // Kopierar hela map till renderMap
@@ -115,24 +120,22 @@ class Program //Blueprint
                 {
                     renderMap[i, j] = map[i, j];
                 }
-
             }
+
             // Placerar ut alla items på kartan
             foreach (Item item in items)
             {
                 if (!item.IsPickedUp)
                 {
-                    renderMap[item.ItemPosY, item.ItemPosX] = item.ItemSymbol;
+                    renderMap[item.PosY, item.PosX] = item.Symbol;
                 }
 
 
-                if (!item.IsPickedUp && item.ItemPosY == player.posY && item.ItemPosX == player.posX)
+                if (!item.IsPickedUp && item.PosY == player.PosY && item.PosX == player.PosX)
 
                 {
                     item.IsPickedUp = true;
-                    player.PlayerHealth += 10;
-
-
+                    player.Health += 10;
                 }
             }
 
@@ -141,10 +144,10 @@ class Program //Blueprint
             {
                 if (enemy.IsAlive)
                 {
-                    renderMap[enemy.EnemyPosY, enemy.EnemyPosX] = enemy.EnemySymbol;
+                    renderMap[enemy.PosY, enemy.PosX] = enemy.Symbol;
                 }
 
-                if (enemy.IsAlive && enemy.EnemyPosY == player.posY && enemy.EnemyPosX == player.posX)
+                if (enemy.IsAlive && enemy.PosY == player.PosY && enemy.PosX == player.PosX)
                 {
                     Battle battle = new Battle();
                     string result = battle.StartBattle(player, enemy);
@@ -157,7 +160,8 @@ class Program //Blueprint
                     else if (result == "LOSE")
                     {
                         Console.WriteLine("Back to menu...");
-                        Program.GameMenu();
+                        Console.ReadKey();
+                        return;
                     }
                     else if (result == "RUN")
                     {
@@ -167,20 +171,21 @@ class Program //Blueprint
                 }
             }
 
-
             // Placerar ut spelaren sist på kartan
-            renderMap[player.posY, player.posX] = '@';
+            renderMap[player.PosY, player.PosX] = '@';
 
+            /*
+            render loop:
+            Här används två nästlade for-loopar för att rendera ut hela kartan i konsolen.
 
-
-
-
-            // render loop (ej map utan rendermap )
+            */
             for (int i = 0; i < renderMap.GetLength(0); i++)
             {
                 Console.WriteLine("");
                 for (int j = 0; j < renderMap.GetLength(1); j++)
+                {
                     Console.Write(renderMap[i, j] + " ");
+                }
             }
 
             Console.WriteLine("");
@@ -189,16 +194,13 @@ class Program //Blueprint
             Console.WriteLine("");
             ShowStats(player);
 
-
             ConsoleKeyInfo key = Console.ReadKey(true);
-
 
             // Rörelselogik, Kolla först med newX/newY, flytta sedan player.posY/posX
             // ReadKey(true) istället för ReadLine för input
 
-            int newX = player.posX;
-            int newY = player.posY;
-
+            int newX = player.PosX;
+            int newY = player.PosY;
 
             if (key.Key == ConsoleKey.W)
             {
@@ -221,12 +223,34 @@ class Program //Blueprint
                 continue;
             }
 
+            /*
+            Här används Console.ReadKey(true) för att läsa av ett tangenttryck direkt från användaren utan att användaren behöver trycka Enter. 
+            Argumentet true gör även att tangenttrycket inte skrivs ut i konsolen.
+
+            Tangenttrycket lagras i variabeln key av typen ConsoleKeyInfo.
+
+            Därefter skapas variablerna newX och newY, där spelarens nuvarande koordinater kopieras. 
+            Dessa används som temporära testkoordinater för att kontrollera om spelaren kan flytta till den nya positionen innan spelarens riktiga position uppdateras.
+
+            Om användaren exempelvis trycker på W, så minskas newY med 1 eftersom spelaren ska röra sig uppåt i arrayen.
+
+            Efter detta kontrollerar en if-sats att de nya koordinaterna befinner sig
+            inom arrayens gränser genom att jämföra koordinaterna med arrayens storlek via GetLength().
+
+            Om koordinaterna är giltiga kontrollerar nästa if-sats att positionen inte innehåller en vägg ('#').
+
+            Om positionen inte är en vägg uppdateras spelarens riktiga koordinater genom att newX och newY 
+            kopieras över till player.PosX och player.PosY. Detta resulterar i att spelaren flyttas på kartan.
+
+
+
+            */
             if (newY >= 0 && newY < map.GetLength(0) && newX >= 0 && newX < map.GetLength(1))
             {
                 if (map[newY, newX] != '#')
                 {
-                    player.posX = newX;
-                    player.posY = newY;
+                    player.PosX = newX;
+                    player.PosY = newY;
                 }
             }
         }
@@ -266,8 +290,6 @@ class Program //Blueprint
                 case 3:
                     return;
             }
-
-
         }
     }
 }

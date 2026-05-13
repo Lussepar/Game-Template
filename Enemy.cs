@@ -7,23 +7,23 @@ definierar vilka egenskaper (properties) spelaren och fienden har.”
 
 class Enemy
 {
-    public int EnemyPosX { get; set; }
-    public int EnemyPosY { get; set; }
-    public char EnemySymbol { get; set; }
-    public string EnemyName { get; set; }
-    public int EnemyHP { get; set; }
-    public int EnemyAttack { get; set; }
-    public int EnemyDefence { get; set; }
+    public int PosX { get; set; }
+    public int PosY { get; set; }
+    public char Symbol { get; set; }
+    public string Name { get; set; }
+    public int HP { get; set; }
+    public int Attack { get; set; }
+    public int Defence { get; set; }
     public bool IsAlive { get; set; }
 
     public Enemy()
     {
-        EnemyHP = 50;
-        EnemyAttack = 4;
-        EnemyDefence = 4;
-        EnemySymbol = 'G';
-        EnemyPosX = 9;
-        EnemyPosY = 1;
+        HP = 50;
+        Attack = 4;
+        Defence = 4;
+        Symbol = 'G';
+        PosX = 9;
+        PosY = 1;
         IsAlive = true;
     }
 }

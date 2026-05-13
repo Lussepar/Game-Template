@@ -2,8 +2,8 @@ class Battle
 {
     public void BattleStats(Player player, Enemy enemy)
     {
-        Console.WriteLine($"Your HP: {player.PlayerHealth}");
-        Console.WriteLine($"Enemy HP: {enemy.EnemyHP}");
+        Console.WriteLine($"Your HP: {player.Health}");
+        Console.WriteLine($"Enemy HP: {enemy.HP}");
     }
     public string StartBattle(Player player, Enemy enemy)
     {
@@ -20,11 +20,11 @@ class Battle
 
             if (battleChoice == "A")
             {
-                int damageToEnemy = player.PlayerAttack;
+                int damageToEnemy = player.Attack;
 
-                enemy.EnemyHP -= damageToEnemy;
+                enemy.HP -= damageToEnemy;
                 Console.WriteLine($"You did {damageToEnemy} damage.");
-                if (enemy.EnemyHP <= 0)
+                if (enemy.HP <= 0)
                 {
                     Console.WriteLine("You are victorious!");
                     Console.ReadKey();
@@ -33,11 +33,12 @@ class Battle
 
                 Console.ReadKey();
 
-                int damageToPlayer = enemy.EnemyAttack;
+                int damageToPlayer = enemy.Attack;
+                player.Health -= damageToPlayer;
 
-                player.PlayerHealth -= damageToPlayer;
                 Console.WriteLine($"Enemy did {damageToPlayer} damage.");
-                if (player.PlayerHealth <= 0)
+
+                if (player.Health <= 0)
                 {
                     Console.WriteLine("You died.");
                     Console.WriteLine("Game over.");

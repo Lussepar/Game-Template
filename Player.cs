@@ -7,26 +7,26 @@ definierar vilka egenskaper (properties) spelaren har.”
 
 class Player
 {
-    public int posX { get; set; }
-    public int posY { get; set; }
-    public char PlayerSymbol { get; set; }
-    public string PlayerName { get; set; }
-    public int PlayerHealth { get; set; }
-    public int PlayerAttack { get; set; }
-    public int PlayerDefence { get; set; }
-    public int PlayerSkillPoints { get; set; }
+    public int PosX { get; set; }
+    public int PosY { get; set; }
+    public char Symbol { get; set; }
+    public string Name { get; set; }
+    public int Health { get; set; }
+    public int Attack { get; set; }
+    public int Defence { get; set; }
+    public int SkillPoints { get; set; }
     public bool IsAlive { get; set; }
 
     public Player()
 
     {
-        posY = 1;
-        posX = 1;
-        PlayerHealth = 100;
-        PlayerAttack = 5;
-        PlayerDefence = 5;
-        PlayerSkillPoints = 10;
-        PlayerSymbol = '@';
+        PosY = 1;
+        PosX = 1;
+        Health = 100;
+        Attack = 5;
+        Defence = 5;
+        SkillPoints = 10;
+        Symbol = '@';
         IsAlive = true;
     }
 }
