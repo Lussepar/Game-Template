@@ -2,27 +2,28 @@ class Battle
 {
     public void BattleStats(Player player, Enemy enemy)
     {
+        Console.WriteLine("=====================");
         Console.WriteLine($"Your HP: {player.Health}");
         Console.WriteLine($"Enemy HP: {enemy.HP}");
+        Console.WriteLine("=====================");
     }
     public string StartBattle(Player player, Enemy enemy)
     {
         while (player.IsAlive && enemy.IsAlive)
         {
             Console.Clear();
-
             BattleStats(player, enemy);
 
             Console.WriteLine(" [A] for Attack");
             Console.WriteLine(" [R] for Run");
-            Console.WriteLine("=============");
+            Console.WriteLine("=====================");
             string battleChoice = Console.ReadLine().ToUpper();
 
             if (battleChoice == "A")
             {
                 int damageToEnemy = player.Attack;
-
                 enemy.HP -= damageToEnemy;
+
                 Console.WriteLine($"You did {damageToEnemy} damage.");
                 if (enemy.HP <= 0)
                 {

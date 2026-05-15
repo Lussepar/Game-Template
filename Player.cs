@@ -29,4 +29,33 @@ class Player
         Symbol = '@';
         IsAlive = true;
     }
+
+    public static string ShowSkillPointMenu(Player player)
+    {
+        Console.WriteLine();
+        Console.WriteLine($"Assign your stats. You have {player.SkillPoints} left.");
+        Console.WriteLine("[A] for Attack");
+        Console.WriteLine("[D] for Defence");
+        Console.WriteLine("[H] for Health");
+        string SkillAssignment = Console.ReadLine().ToUpper();
+        return SkillAssignment;
+    }
+
+    public static void IncreaseAttack(Player player)
+    {
+        player.SkillPoints--;
+        player.Attack++;
+    }
+
+    public static void IncreaseHealth(Player player)
+    {
+        player.SkillPoints--;
+        player.Health++;
+    }
+
+    public static void IncreaseDefence(Player player)
+    {
+        player.SkillPoints--;
+        player.Defence++;
+    }
 }
