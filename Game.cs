@@ -12,10 +12,10 @@ class Game
         string input = Console.ReadLine();
         player.Name = input;
 
-        SkillPoints(player); // Argument = det du skickar in
+        SkillPoints(player);
     }
 
-    static void SkillPoints(Player player) // Parameter = det som tar emot
+    static void SkillPoints(Player player)
     {
         while (player.SkillPoints > 0)
         {
@@ -51,21 +51,17 @@ class Game
         UI.AnyKey();
         GameRun(player);
     }
-    static void GameRun(Player player) // Fixat ReadKey istället för ReadLine
+
+    static void GameRun(Player player)
     {
-        List<Enemy> enemies = new List<Enemy>(); // Lista med alla enemies i spelet
+        List<Enemy> enemies = new List<Enemy>();
         enemies.Add(new Enemy());
 
-        List<Item> items = new List<Item>(); //Lista med alla items i spelet
+        List<Item> items = new List<Item>();
         items.Add(new Item());
 
-        while (true)
-        {
-
-            Console.Clear();
-
-            // Statisk karta (bakgrund) En tvådimensionell array av typen char
-            var map = new char[,]{
+        // Statisk karta (bakgrund) En tvådimensionell array av typen char
+        var map = new char[,]{
                                 {'#','#','#','#','#','#','#','#','#','#','#','#','#'},
                                 {'#','.','.','.','#','.','.','.','.','.','.','.','#'},
                                 {'#','#','#','.','#','.','#','#','#','#','#','.','#'},
@@ -75,34 +71,18 @@ class Game
                                 {'#','#','#','#','#','#','#','#','#','#','#','#','#'},
                                 };
 
+        while (true)
+        {
+            Console.Clear();
+
             // Skapar en tom karta som ska renderas. var används för implicit typning, vilket innebär att kompilatorns automatiskt identifierar vilken datatyp variablen ska ha baserat på värdet som tilldelas.
             var renderMap = new char[map.GetLength(0), map.GetLength(1)];
 
             // Kopierar hela map till renderMap
-            for (int i = 0; i < map.GetLength(0); i++)
-            {
-                for (int j = 0; j < map.GetLength(1); j++)
-                {
-                    renderMap[i, j] = map[i, j];
-                }
-            }
+            CopyMapToRenderMap(map, renderMap);
 
             // Placerar ut alla items på kartan
-            foreach (Item item in items)
-            {
-                if (!item.IsPickedUp)
-                {
-                    renderMap[item.PosY, item.PosX] = item.Symbol;
-                }
-
-
-                if (!item.IsPickedUp && item.PosY == player.PosY && item.PosX == player.PosX)
-
-                {
-                    item.IsPickedUp = true;
-                    player.Health += 10;
-                }
-            }
+            HandleItems(items, renderMap, player);
 
             // Placerar ut alla enemies på kartan
             foreach (Enemy enemy in enemies)
@@ -153,10 +133,7 @@ class Game
                 }
             }
 
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.WriteLine("Press [W, A, S, D] to control the player");
-            Console.WriteLine("");
+            UI.ControlPlayer();
             UI.ShowStats(player);
 
             ConsoleKeyInfo key = Console.ReadKey(true);
@@ -217,6 +194,33 @@ class Game
                     player.PosX = newX;
                     player.PosY = newY;
                 }
+            }
+        }
+    }
+    public static void CopyMapToRenderMap(char[,] map, char[,] renderMap)
+    {
+        for (int i = 0; i < map.GetLength(0); i++)
+        {
+            for (int j = 0; j < map.GetLength(1); j++)
+            {
+                renderMap[i, j] = map[i, j];
+            }
+        }
+    }
+    public static void HandleItems(List<Item> items, char[,] renderMap, Player player)
+    {
+        foreach (Item item in items)
+        {
+            if (!item.IsPickedUp)
+            {
+                renderMap[item.PosY, item.PosX] = item.Symbol;
+            }
+
+
+            if (!item.IsPickedUp && item.PosY == player.PosY && item.PosX == player.PosX)
+            {
+                item.IsPickedUp = true;
+                player.Health += 10;
             }
         }
     }

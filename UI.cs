@@ -1,6 +1,6 @@
 class UI
 {
-    public static void GameMenu() // Visar menyn
+    public static void GameMenu()
     {
         Console.WriteLine("1) Play");
         Console.WriteLine("2) About");
@@ -30,5 +30,21 @@ class UI
     {
         Console.WriteLine("Press any key to continue.");
         Console.ReadKey();
+    }
+
+    public static void BattleStats(Player player, Enemy enemy)
+    {
+        Console.WriteLine("=====================");
+        Console.WriteLine($"Your HP: {player.Health}");
+        Console.WriteLine($"Enemy HP: {enemy.HP}");
+        Console.WriteLine("=====================");
+    }
+
+    public static void ControlPlayer()
+    {
+        Console.WriteLine("");
+        Console.WriteLine("");
+        Console.WriteLine("Press [W, A, S, D] to control the player");
+        Console.WriteLine("");
     }
 }

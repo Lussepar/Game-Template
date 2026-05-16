@@ -1,22 +1,16 @@
 class Battle
 {
-    public void BattleStats(Player player, Enemy enemy)
-    {
-        Console.WriteLine("=====================");
-        Console.WriteLine($"Your HP: {player.Health}");
-        Console.WriteLine($"Enemy HP: {enemy.HP}");
-        Console.WriteLine("=====================");
-    }
+
     public string StartBattle(Player player, Enemy enemy)
     {
         while (player.IsAlive && enemy.IsAlive)
         {
             Console.Clear();
-            BattleStats(player, enemy);
+            UI.BattleStats(player, enemy);
 
             Console.WriteLine(" [A] for Attack");
             Console.WriteLine(" [R] for Run");
-            Console.WriteLine("=====================");
+            Console.WriteLine("=====================");    // <--- ändra till UI.ShowBattleStatsAndOptions typ
             string battleChoice = Console.ReadLine().ToUpper();
 
             if (battleChoice == "A")

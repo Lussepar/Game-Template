@@ -1,4 +1,4 @@
-﻿class Program //Blueprint 
+﻿class Program
 {
     static void Main()
     {
