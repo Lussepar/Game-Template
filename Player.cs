@@ -50,7 +50,7 @@ class Player
     public static void IncreaseHealth(Player player)
     {
         player.SkillPoints--;
-        player.Health++;
+        player.Health += 10;
     }
 
     public static void IncreaseDefence(Player player)

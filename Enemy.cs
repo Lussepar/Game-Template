@@ -19,11 +19,9 @@ class Enemy
     public Enemy()
     {
         HP = 50;
-        Attack = 4;
+        Attack = 7;
         Defence = 4;
         Symbol = 'G';
-        PosX = 9;
-        PosY = 1;
         IsAlive = true;
     }
 }

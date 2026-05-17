@@ -38,6 +38,7 @@ class Battle
                     Console.WriteLine("You died.");
                     Console.WriteLine("Game over.");
                     Console.ReadKey();
+                    player.IsAlive = false;
                     return "LOSE";
                 }
                 Console.ReadKey();
